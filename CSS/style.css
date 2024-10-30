@@ -1,0 +1,34 @@
+h1,h2,h3,h4,h5,h6{
+    font-family: 'Noto Sans TC', sans-serif;
+}
+
+p,a,input,label,textarea,span,ul,li{
+    font-family: 'Open Sans', sans-serif;
+
+}
+
+#intro h1{
+    font-size: 52px;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.btn {
+    background: #f05f5c!important;
+    color: white!important;
+    padding: 9px 26px;
+    border-radius: 20px;
+    transition: background 0.3s ease;
+}
+
+.btn:hover{
+    background: #d9534f!important;
+}
+
+header nav img{
+    width: 160px;
+}
+
+header li{
+    margin: 0 10px;
+}

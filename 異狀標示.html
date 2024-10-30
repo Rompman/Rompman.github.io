@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">        
+
+    <link rel="stylesheet" href="CSS/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <style>
+        .header-bg{
+            background-color: #d2dae2;
+        }
+    </style>
+
+    <title>異狀標示</title>
+
+</head>
+<body>
+
+    <section id='intro'>
+
+        <header>
+            <div>
+                <nav class="navbar navbar-expand-lg header-bg">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="index.html">
+                            <img src="pic/3-robot.jpg">
+                        </a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="index.html">首頁</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="即時監控.html">即時監控</a>
+                                </li>                
+                                <li class="nav-item">
+                                    <a class="nav-link" href="異狀標示.html">異狀標示</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        數據紀錄
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="溫溼度數據.html">溫溼度歷史變化</a></li>
+                                        <li><a class="dropdown-item" href="異常紀錄.html">異常紀錄</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+    </section>
+
+    <main class="container my-5">
+        <h1 class="text-center">菜葉異常標示</h1>
+
+        <form id="uploadForm" class="my-4">
+            <div class="mb-3">
+                <label for="imageUpload" class="form-label">上傳菜葉影像</label>
+                <input class="form-control" type="file" id="imageUpload" accept="image/*" required>
+            </div>
+            <button type="submit" class="btn btn-primary">辨識</button>
+        </form>
+
+        <div id="result" class="text-center">
+            <h4>辨識結果</h4>
+            <img id="resultImage" src="" alt="辨識結果圖像" class="img-fluid my-3" style="display: none;">
+            <div id="detectionOutput"></div>
+        </div>
+    </main>
+
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const fileInput = document.getElementById('imageUpload');
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const imgElement = document.getElementById('resultImage');
+                imgElement.src = e.target.result;
+                imgElement.style.display = 'block';
+
+                const results = simulateDetection(file); 
+                displayResults(results);
+            };
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function simulateDetection(file) {
+            
+            return {
+                hasPests: Math.random() < 0.5,
+                isWilting: Math.random() < 0.5,
+                pestType: Math.random() < 0.5 ? "蚜蟲" : "無",
+                wiltSeverity: Math.random() < 0.5 ? "輕微" : "嚴重"
+            };
+        }
+
+        function displayResults(results) {
+            const output = document.getElementById('detectionOutput');
+            output.innerHTML = `
+                <p>是否有害蟲: ${results.hasPests ? '是' : '否'}</p>
+                <p>是否枯萎: ${results.isWilting ? '是' : '否'}</p>
+                ${results.hasPests ? `<p>害蟲類型: ${results.pestType}</p>` : ''}
+                ${results.isWilting ? `<p>枯萎程度: ${results.wiltSeverity}</p>` : ''}
+            `;
+        }
+    </script>
+
+</body>
+</html>
